@@ -34,8 +34,8 @@ public class MainCliente {
 
                 //timeList.add(bs.getTime(LocalDateTime.now()));
             }
-            System.out.println(average + (timeList.get(0) * -1));
-            System.out.println(average + (timeList.get(1) * -1));
+            System.out.println("Desvio:"+(average + (timeList.get(0) * -1)));
+            System.out.println("Desvio:"+(average + (timeList.get(1) * -1)));
             bs1.setTime(average + (timeList.get(0) * -1));
             bs2.setTime(average + (timeList.get(1) * -1));
             System.out.println("Finish");
