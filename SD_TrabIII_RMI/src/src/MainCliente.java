@@ -34,10 +34,12 @@ public class MainCliente {
 
                 //timeList.add(bs.getTime(LocalDateTime.now()));
             }
-            System.out.println("Desvio:"+(average + (timeList.get(0) * -1)));
-            System.out.println("Desvio:"+(average + (timeList.get(1) * -1)));
-            bs1.setTime(average + (timeList.get(0) * -1));
-            bs2.setTime(average + (timeList.get(1) * -1));
+            Integer avg1 = (average + (timeList.get(0) * -1));
+            Integer avg2 = (average + (timeList.get(1) * -1));
+            System.out.println("Desvio:"+avg1);
+            System.out.println("Desvio:"+avg2);
+            bs1.setTime(avg1);
+            bs2.setTime(avg2);
             System.out.println("Finish");
         } catch (Exception ex) {
             System.out.println(ex);

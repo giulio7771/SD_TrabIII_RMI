@@ -32,7 +32,8 @@ public class BerkeleyServer extends UnicastRemoteObject implements BerkeleyServe
     @Override
     public void setTime(Integer time) throws RemoteException {
         System.out.println("Server old time: "+this.currentTime);
+        System.out.println("Time Plus: "+time);
         this.currentTime = this.currentTime.plusMinutes(time);
-        System.out.println("Server new time: "+getTime());
+        System.out.println("Server new time: "+currentTime);
     }
 }
