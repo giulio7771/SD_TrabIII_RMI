@@ -9,21 +9,36 @@ public class MainCliente {
     public static void main(String[] args) {
         List<String> ipsServer = new ArrayList<>();
         List<Integer> timeList = new ArrayList<>();
+        ipsServer.add("");
+        ipsServer.add("");
+
         try {
-            for (String ip : ipsServer) {
+            BerkeleyServer bs1 = new BerkeleyServer();
+            BerkeleyServer bs2 = new BerkeleyServer();
+            timeList.add(bs1.getTime(LocalDateTime.now()));
+            timeList.add(bs2.getTime(LocalDateTime.now()));
+
+            /*for (String ip : ipsServer) {
                 Registry registry = LocateRegistry.getRegistry(ip);
                 BerkeleyServerInterface bs = (BerkeleyServerInterface) registry.lookup("BerkeleyServer");
                 timeList.add(bs.getTime(LocalDateTime.now()));
-            }
-
+            
+            }*/
             Integer average = averageTime(timeList);
+            System.out.println("Average: " + average);
             for (int i = 0; i < ipsServer.size(); i++) {
-                Registry registry = LocateRegistry.getRegistry(ipsServer.get(i));
-                BerkeleyServerInterface bs = (BerkeleyServerInterface) registry.lookup("BerkeleyServer");
-                bs.setTime((average - timeList.get(i)) * -1);
-                
-                timeList.add(bs.getTime(LocalDateTime.now()));
+                //   Registry registry = LocateRegistry.getRegistry(ipsServer.get(i));
+                // BerkeleyServerInterface bs = (BerkeleyServerInterface) registry.lookup("BerkeleyServer");
+
+                //bs1.setTime(average + (timeList.get(i) * -1));
+
+                //timeList.add(bs.getTime(LocalDateTime.now()));
             }
+            System.out.println(average + (timeList.get(0) * -1));
+            System.out.println(average + (timeList.get(1) * -1));
+            bs1.setTime(average + (timeList.get(0) * -1));
+            bs2.setTime(average + (timeList.get(1) * -1));
+            System.out.println("Finish");
         } catch (Exception ex) {
             System.out.println(ex);
         }
