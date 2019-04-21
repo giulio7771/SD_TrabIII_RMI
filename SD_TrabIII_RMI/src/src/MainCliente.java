@@ -1,3 +1,4 @@
+package src;
 
 import java.rmi.registry.*;
 import java.time.LocalDateTime;
@@ -7,40 +8,29 @@ import java.util.List;
 public class MainCliente {
 
     public static void main(String[] args) {
-        List<String> ipsServer = new ArrayList<>();
         List<Integer> timeList = new ArrayList<>();
-        ipsServer.add("");
-        ipsServer.add("");
+        List<BerkeleyServerInterface> serverList = new ArrayList<BerkeleyServerInterface>();
+        LocalDateTime currentTime = LocalDateTime.now();
 
         try {
-            BerkeleyServer bs1 = new BerkeleyServer();
-            BerkeleyServer bs2 = new BerkeleyServer();
-            timeList.add(bs1.getTime(LocalDateTime.now()));
-            timeList.add(bs2.getTime(LocalDateTime.now()));
-
-            /*for (String ip : ipsServer) {
-                Registry registry = LocateRegistry.getRegistry(ip);
+            for (String ip : args) {
+                Registry registry = LocateRegistry.getRegistry(ip.split(":")[0], Integer.parseInt(ip.split(":")[1]));
                 BerkeleyServerInterface bs = (BerkeleyServerInterface) registry.lookup("BerkeleyServer");
-                timeList.add(bs.getTime(LocalDateTime.now()));
-            
-            }*/
-            Integer average = averageTime(timeList);
-            System.out.println("Average: " + average);
-            for (int i = 0; i < ipsServer.size(); i++) {
-                //   Registry registry = LocateRegistry.getRegistry(ipsServer.get(i));
-                // BerkeleyServerInterface bs = (BerkeleyServerInterface) registry.lookup("BerkeleyServer");
-
-                //bs1.setTime(average + (timeList.get(i) * -1));
-
-                //timeList.add(bs.getTime(LocalDateTime.now()));
+                timeList.add(bs.getTime(currentTime));
+                serverList.add(bs);
             }
-            Integer avg1 = (average + (timeList.get(0) * -1));
-            Integer avg2 = (average + (timeList.get(1) * -1));
-            System.out.println("Desvio:"+avg1);
-            System.out.println("Desvio:"+avg2);
-            bs1.setTime(avg1);
-            bs2.setTime(avg2);
-            System.out.println("Finish");
+
+            System.out.println(args.length + " servidores contactados");
+
+            Integer average = averageTime(timeList);
+            System.out.println("Media: " + average);
+
+            for (int i = 0; i < args.length; i++) {
+                BerkeleyServerInterface bs = serverList.get(i);
+                bs.setTime(average + (timeList.get(i) * -1));
+            }
+
+            System.out.println("Fim!");
         } catch (Exception ex) {
             System.out.println(ex);
         }
